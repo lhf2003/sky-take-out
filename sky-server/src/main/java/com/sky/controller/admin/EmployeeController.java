@@ -94,4 +94,17 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    /***
+     * @description: 修改员工状态
+     * @param: status，id
+     * @return: com.sky.result.Result
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用或禁用员工账号")
+    public Result statusModify(@PathVariable Integer status,Long id){
+        log.info("修改员工状态");
+        employeeService.update(status,id);
+        return Result.success();
+    }
+
 }

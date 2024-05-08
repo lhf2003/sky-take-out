@@ -28,4 +28,6 @@ public interface EmployeeService {
      * @return: com.sky.result.PageResult
      */
     PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+    void update(Integer status, Long id);
 }
