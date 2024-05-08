@@ -89,13 +89,13 @@ public class EmployeeController {
     @GetMapping("/page")
     @ApiOperation("员工分页查询")
     public Result<PageResult> pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
-        log.info("员工分页查询参数：", employeePageQueryDTO);
+        log.info("员工分页查询参数：{}", employeePageQueryDTO);
         PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
         return Result.success(pageResult);
     }
 
     /***
-     * @description: 修改员工状态
+     * @description: 启用或禁用员工账号
      * @param: status，id
      * @return: com.sky.result.Result
      */
@@ -103,8 +103,27 @@ public class EmployeeController {
     @ApiOperation("启用或禁用员工账号")
     public Result statusModify(@PathVariable Integer status,Long id){
         log.info("修改员工状态");
-        employeeService.update(status,id);
+        employeeService.statusModify(status,id);
         return Result.success();
     }
 
+    /***
+     * @description: 根据id查询员工信息
+     * @param: id
+     * @return: com.sky.result.Result<com.sky.entity.Employee>
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询员工")
+    public Result<Employee> getById(@PathVariable Long id){
+        log.info("根据id查询员工：{}",id);
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    @PutMapping
+    @ApiOperation("编辑员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
 }
