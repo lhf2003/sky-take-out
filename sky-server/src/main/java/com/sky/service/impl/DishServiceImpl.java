@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class DishServiceImpl implements DishService {
     @Autowired
     private DishFlavorMapper dishFlavorMapper;
 
+    @Transactional
     public void insert(DishDTO dishDTO) {
         Dish dish = new Dish();
         BeanUtils.copyProperties(dishDTO, dish);
@@ -36,9 +38,9 @@ public class DishServiceImpl implements DishService {
         dishMapper.insert(dish);
 
         //向dish_flavor表插入数据
-        Long dishId = dish.getId();
+        Long dishId = dish.getId(); //获取菜品id，以便与菜品口味表关联
         List<DishFlavor> flavers = dishFlavorMapper.getFlavers();
-        if (flavers != null && flavers.size() > 0) {
+        if (flavers != null && !flavers.isEmpty()) {
             flavers.forEach(dishFlavor -> {
                 dishFlavor.setDishId(dishId);
             });
