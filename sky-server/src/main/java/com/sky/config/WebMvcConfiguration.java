@@ -61,7 +61,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      * @return
      */
     @Bean
-    public Docket docket() {
+    public Docket docketAdmin() {
         //配置 API 的一些基本信息，比如：文档标题title，文档描述description，文档版本号version
         ApiInfo apiInfo = new ApiInfoBuilder()
                 .title("苍穹外卖项目接口文档")
@@ -69,9 +69,27 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .description("苍穹外卖项目接口文档")
                 .build();
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("管理端接口")
                 .apiInfo(apiInfo)
                 .select() //生成 API 文档的选择器，用于指定要生成哪些 API 文档
-                .apis(RequestHandlerSelectors.basePackage("com.sky.controller"))//指定要生成哪个包下的 API 文档
+                .apis(RequestHandlerSelectors.basePackage("com.sky.controller.admin"))//指定要生成哪个包下的 API 文档
+                .paths(PathSelectors.any())//指定要生成哪个 URL 匹配模式下的 API 文档。这里使用 PathSelectors.any()，表示生成所有的 API 文档。
+                .build();
+        return docket;
+    }
+    @Bean
+    public Docket docketUser() {
+        //配置 API 的一些基本信息，比如：文档标题title，文档描述description，文档版本号version
+        ApiInfo apiInfo = new ApiInfoBuilder()
+                .title("苍穹外卖项目接口文档")
+                .version("2.0")
+                .description("苍穹外卖项目接口文档")
+                .build();
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("用户端接口")
+                .apiInfo(apiInfo)
+                .select() //生成 API 文档的选择器，用于指定要生成哪些 API 文档
+                .apis(RequestHandlerSelectors.basePackage("com.sky.controller.user"))//指定要生成哪个包下的 API 文档
                 .paths(PathSelectors.any())//指定要生成哪个 URL 匹配模式下的 API 文档。这里使用 PathSelectors.any()，表示生成所有的 API 文档。
                 .build();
         return docket;
