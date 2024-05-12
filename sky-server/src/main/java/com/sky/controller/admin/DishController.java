@@ -1,6 +1,5 @@
 package com.sky.controller.admin;
 
-import com.github.pagehelper.Page;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -72,4 +70,13 @@ public class DishController {
         dishService.updateDishWithFlavor(dishDTO);
         return Result.success();
     }
+
+    @GetMapping("/list")
+    @ApiOperation("根据分类id查询该分类菜品")
+    public Result<List<Dish>> list(Long categoryId){
+        log.info("根据分类id查询该分类菜品：{}",categoryId);
+        List<Dish> dishList = dishService.list(categoryId);
+        return Result.success(dishList);
+    }
+
 }

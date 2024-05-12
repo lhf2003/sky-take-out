@@ -50,4 +50,14 @@ public interface DishMapper {
 
     @AutoFill(OperationType.UPDATE)
     void update(Dish dish);
+
+    /**
+     * 根据分类id查询该分类菜品
+     *
+     * @param: categoryId
+     * @return: java.util.List<com.sky.entity.Dish>
+     */
+
+
+    List<Dish> list(Dish dish);
 }
