@@ -12,6 +12,9 @@ sky:
     access-key-id: LTAI5tNzP2YuQVExgsYuG3Vb
     access-key-secret: 87BwJFQPussUwDWp3uKRRrj0ALRDKU
     bucket-name: web777
+  wechat:
+    appid: wx0c8566412b2a8d5f
+    secret: ae14cd11025524f4787a7530114ca812
 
 #Redis配置
 spring:

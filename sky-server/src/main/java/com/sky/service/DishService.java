@@ -54,4 +54,6 @@ public interface DishService {
      * @return: java.util.List<com.sky.entity.Dish>
      */
     List<Dish> list(Long categoryId);
+
+    List<DishVO> listWithFlavor(Long categoryId);
 }
