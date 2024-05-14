@@ -91,4 +91,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCart.setUserId(userId);
         return shoppingCartMapper.list(shoppingCart);
     }
+
+    /**
+     * 清空购物车
+     * @param:
+     * @return: void
+     */
+    public void deleteAll() {
+        Long userId = BaseContext.getCurrentId();
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUserId(userId);
+
+        shoppingCartMapper.deleteAll(shoppingCart);
+    }
 }
