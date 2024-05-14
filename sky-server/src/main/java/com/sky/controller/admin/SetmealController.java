@@ -1,5 +1,6 @@
 package com.sky.controller.admin;
 
+import com.sky.constant.StatusConstant;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
@@ -10,6 +11,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +35,7 @@ public class SetmealController {
 
     @PostMapping
     @ApiOperation("新增套餐")
+    @CacheEvict(cacheNames = "setmealCache", key = "#setmealDTO.categoryId")
     public Result save(@RequestBody SetmealDTO setmealDTO) {
         log.info("新增套餐：{}", setmealDTO);
         setMealService.insert(setmealDTO);
@@ -40,6 +44,7 @@ public class SetmealController {
 
     @DeleteMapping
     @ApiOperation("删除套餐")
+    @CacheEvict(value = "setmealCache", allEntries = true)
     public Result deleteSealMeal(@RequestParam List<Long> ids) {
         log.info("删除套餐：{}", ids);
         setMealService.deleteSetMeal(ids);
@@ -48,8 +53,9 @@ public class SetmealController {
 
     @PutMapping
     @ApiOperation("修改套餐")
+    @CacheEvict(value = "setmealCache", allEntries = true)
     public Result update(@RequestBody SetmealDTO setmealDTO) {
-        log.info("修改套餐：{}",setmealDTO);
+        log.info("修改套餐：{}", setmealDTO);
         setMealService.update(setmealDTO);
         return Result.success();
     }
@@ -62,20 +68,21 @@ public class SetmealController {
         return Result.success(pageResult);
     }
 
-    @PostMapping("/status/{status}")
-    @ApiOperation("起售停售套餐")
-    public Result statusModify(@PathVariable Integer status, Long id) {
-        log.info("起售停售套餐：{}", id);
-        setMealService.statusModify(status, id);
-        return Result.success();
-    }
-
     @GetMapping("/{id}")
     @ApiOperation("根据id查询套餐")
     public Result<Setmeal> getById(@PathVariable Long id) {
         log.info("根据id查询套餐：{}", id);
         Setmeal setMeal = setMealService.getById(id);
         return Result.success(setMeal);
+    }
+
+    @PostMapping("/status/{status}")
+    @ApiOperation("起售停售套餐")
+    @CacheEvict(value = "setmealCache", allEntries = true)
+    public Result statusModify(@PathVariable Integer status, Long id) {
+        log.info("起售停售套餐：{}", id);
+        setMealService.statusModify(status, id);
+        return Result.success();
     }
 
 }
