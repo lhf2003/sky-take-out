@@ -7,14 +7,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-/**
- * TODO
- *
- * @author LHF
- * @version 1.0
- * @date 2024/5/11 14:08
- */
-
 @Configuration
 @Slf4j
 public class RedisConfiguration {

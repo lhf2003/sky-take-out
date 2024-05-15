@@ -18,13 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * TODO
- *
- * @author LHF
- * @version 1.0
- * @date 2024/5/14 18:58
- */
+
 @Service
 @Slf4j
 public class ShoppingCartServiceImpl implements ShoppingCartService {

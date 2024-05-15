@@ -13,12 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.UUID;
 
-/**
- * @author LHF
- * @version 1.0
- * @description: TODO
- * @date 2024/5/9 16:24
- */
 
 @RestController
 @RequestMapping("/admin/common")

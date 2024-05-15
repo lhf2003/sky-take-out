@@ -6,13 +6,6 @@ import com.sky.entity.User;
 
 import java.util.List;
 
-/**
- * TODO
- *
- * @author LHF
- * @version 1.0
- * @date 2024/5/14 18:58
- */
 public interface ShoppingCartService {
 
     /**

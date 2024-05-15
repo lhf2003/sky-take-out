@@ -25,12 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author LHF
- * @version 1.0
- * @description: TODO
- * @date 2024/5/9 21:59
- */
+
 @Service
 @Slf4j
 public class DishServiceImpl implements DishService {

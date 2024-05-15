@@ -18,12 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @author LHF
- * @version 1.0
- * @description: TODO
- * @date 2024/5/9 21:57
- */
 @RestController
 @RequestMapping("/admin/dish")
 @Api(tags = "菜品接口")

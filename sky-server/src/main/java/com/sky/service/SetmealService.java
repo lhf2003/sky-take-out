@@ -9,13 +9,7 @@ import com.sky.vo.DishItemVO;
 
 import java.util.List;
 
-/**
- * TODO
- *
- * @author LHF
- * @version 1.0
- * @date 2024/5/11 18:21
- */
+
 public interface SetmealService {
     /**
      * 新增套餐

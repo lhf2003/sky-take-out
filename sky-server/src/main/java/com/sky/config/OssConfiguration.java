@@ -7,13 +7,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * @author LHF
- * @version 1.0
- * @description: TODO
- * @date 2024/5/9 16:43
- */
-
 @Configuration
 @Slf4j
 public class OssConfiguration {
