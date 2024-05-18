@@ -312,6 +312,26 @@ public class OrderServiceImpl implements OrderService {
         return new PageResult(page.getTotal(), orderVOList);
     }
 
+    private List<OrderVO> getOrderVOList(Page<Orders> page) {
+        // 需要返回订单菜品信息，自定义OrderVO响应结果
+        List<OrderVO> orderVOList = new ArrayList<>();
+
+        List<Orders> ordersList = page.getResult();
+        if (!CollectionUtils.isEmpty(ordersList)) {
+            for (Orders orders : ordersList) {
+                // 将共同字段复制到OrderVO
+                OrderVO orderVO = new OrderVO();
+                BeanUtils.copyProperties(orders, orderVO);
+                String orderDishes = getOrderDishesStr(orders);
+
+                // 将订单菜品信息封装到orderVO中，并添加到orderVOList
+                orderVO.setOrderDishes(orderDishes);
+                orderVOList.add(orderVO);
+            }
+        }
+        return orderVOList;
+    }
+
     /**
      * 各个状态的订单数量统计
      *
@@ -443,26 +463,6 @@ public class OrderServiceImpl implements OrderService {
         //订单状态是派送中，修改状态为已完成
         orders.setStatus(Orders.COMPLETED);
         orderMapper.update(orders);
-    }
-
-    private List<OrderVO> getOrderVOList(Page<Orders> page) {
-        // 需要返回订单菜品信息，自定义OrderVO响应结果
-        List<OrderVO> orderVOList = new ArrayList<>();
-
-        List<Orders> ordersList = page.getResult();
-        if (!CollectionUtils.isEmpty(ordersList)) {
-            for (Orders orders : ordersList) {
-                // 将共同字段复制到OrderVO
-                OrderVO orderVO = new OrderVO();
-                BeanUtils.copyProperties(orders, orderVO);
-                String orderDishes = getOrderDishesStr(orders);
-
-                // 将订单菜品信息封装到orderVO中，并添加到orderVOList
-                orderVO.setOrderDishes(orderDishes);
-                orderVOList.add(orderVO);
-            }
-        }
-        return orderVOList;
     }
 
     /**

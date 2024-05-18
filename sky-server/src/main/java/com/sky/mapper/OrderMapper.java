@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Mapper
 public interface OrderMapper {
@@ -57,4 +58,12 @@ public interface OrderMapper {
      */
     @Select("select count(id) from orders where status = #{status}")
     Integer countStatus(Integer status);
+
+    /**
+     * 处理超时未付款订单
+     * @param: cancelled time
+     * @return: java.util.List<com.sky.entity.Orders>
+     */
+    @Select("select * from orders where status = #{status} and order_time < #{time}")
+    List<Orders> getStatusAndTimeOut(Integer status, LocalDateTime time);
 }
