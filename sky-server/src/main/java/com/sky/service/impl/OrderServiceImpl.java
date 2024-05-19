@@ -150,9 +150,9 @@ public class OrderServiceImpl implements OrderService {
         //以下是模拟向客户端发送来单提醒
         //封装数据
         HashMap<String, Object> map = new HashMap<>();
-        map.put("type",1); //类型为1表示来单提醒，2表示催单
-        map.put("orderId",orderId);
-        map.put("content","订单号："+ordersPaymentDTO.getOrderNumber());
+        map.put("type", 1); //类型为1表示来单提醒，2表示催单
+        map.put("orderId", orderId);
+        map.put("content", "订单号：" + ordersPaymentDTO.getOrderNumber());
 
         //通过websocket向客户端浏览器推送消息
         String json = JSON.toJSONString(map);
@@ -181,9 +181,9 @@ public class OrderServiceImpl implements OrderService {
 
         //封装数据
         HashMap<String, Object> map = new HashMap<>();
-        map.put("type",1); //类型为1表示来单提醒，2表示催单
-        map.put("orderId",ordersDB.getId());
-        map.put("content","订单号："+outTradeNo);
+        map.put("type", 1); //类型为1表示来单提醒，2表示催单
+        map.put("orderId", ordersDB.getId());
+        map.put("content", "订单号：" + outTradeNo);
 
         //通过websocket向客户端浏览器推送消息
         String json = JSON.toJSONString(map);
@@ -476,6 +476,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 完成订单
+     *
      * @param: id
      * @return: void
      */
@@ -488,6 +489,23 @@ public class OrderServiceImpl implements OrderService {
         //订单状态是派送中，修改状态为已完成
         orders.setStatus(Orders.COMPLETED);
         orderMapper.update(orders);
+    }
+
+    /**
+     * 客户催单
+     *
+     * @param: id
+     * @return: void
+     */
+    public void reminder(Long id) {
+        Orders orders = orderMapper.getById(id);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("type", 2); //类型为2表示催单
+        map.put("orderId", id);
+        map.put("content", "订单号：" + orders.getNumber());
+        //通过websocket向客户端浏览器推送消息
+        webSocketServer.sendToAllClient(JSON.toJSONString(map));
     }
 
     /**

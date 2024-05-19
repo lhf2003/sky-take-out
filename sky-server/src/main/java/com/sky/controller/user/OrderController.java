@@ -23,10 +23,11 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
     @PostMapping("/submit")
     @ApiOperation("用户下单")
-    public Result<OrderSubmitVO> submitOrder(@RequestBody OrdersSubmitDTO ordersSubmitDTO){
-        log.info("用户下单：{}",ordersSubmitDTO);
+    public Result<OrderSubmitVO> submitOrder(@RequestBody OrdersSubmitDTO ordersSubmitDTO) {
+        log.info("用户下单：{}", ordersSubmitDTO);
         OrderSubmitVO orderSubmitVO = orderService.submitOrder(ordersSubmitDTO);
         return Result.success(orderSubmitVO);
     }
@@ -96,6 +97,18 @@ public class OrderController {
     @ApiOperation("再来一单")
     public Result repetition(@PathVariable Long id) {
         orderService.repetition(id);
+        return Result.success();
+    }
+
+    /**
+     * 客户催单
+     * @param: id
+     * @return: com.sky.result.Result
+     */
+    @GetMapping("/reminder/{id}")
+    @ApiOperation("客户催单")
+    public Result remainder(@PathVariable Long id) {
+        orderService.reminder(id);
         return Result.success();
     }
 }
