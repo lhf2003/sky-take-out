@@ -1,5 +1,6 @@
 package com.sky.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -19,6 +20,7 @@ import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import com.sky.websocket.WebSocketServer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +46,8 @@ public class OrderServiceImpl implements OrderService {
     private UserMapper userMapper;
     @Autowired
     private AddressBookMapper addressBookMapper;
+    @Autowired
+    private WebSocketServer webSocketServer;
 //    @Autowired
 //    private WeChatPayUtil weChatPayUtil;
 
@@ -138,10 +143,20 @@ public class OrderServiceImpl implements OrderService {
         Integer OrderPaidStatus = Orders.PAID; //支付状态，已支付
         Integer OrderStatus = Orders.TO_BE_CONFIRMED;  //订单状态，待接单
 
-        //发现没有将支付时间 check_out属性赋值，所以在这里更新
+        //为支付时间 check_out 属性赋值
         LocalDateTime check_out_time = LocalDateTime.now();
         orderMapper.updateStatus(OrderStatus, OrderPaidStatus, check_out_time, orderId);
 
+        //以下是模拟向客户端发送来单提醒
+        //封装数据
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("type",1); //类型为1表示来单提醒，2表示催单
+        map.put("orderId",orderId);
+        map.put("content","订单号："+ordersPaymentDTO.getOrderNumber());
+
+        //通过websocket向客户端浏览器推送消息
+        String json = JSON.toJSONString(map);
+        webSocketServer.sendToAllClient(json);
         return vo;
     }
 
@@ -163,6 +178,16 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+
+        //封装数据
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("type",1); //类型为1表示来单提醒，2表示催单
+        map.put("orderId",ordersDB.getId());
+        map.put("content","订单号："+outTradeNo);
+
+        //通过websocket向客户端浏览器推送消息
+        String json = JSON.toJSONString(map);
+        webSocketServer.sendToAllClient(json);
     }
 
     /**
