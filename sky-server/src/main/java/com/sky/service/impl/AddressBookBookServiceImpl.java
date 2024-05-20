@@ -35,14 +35,7 @@ public class AddressBookBookServiceImpl implements AddressBookService {
      * @param: addressBook
      * @return: void
      */
-    @Transactional
     public void update(AddressBook addressBook) {
-        //1、先把当前用户的所有默认地址都设置为0
-        addressBook.setIsDefault(0);
-        addressBook.setUserId(BaseContext.getCurrentId());
-        addressBookMapper.updateIsDefault(addressBook);
-        //2、再将前端传递的默认地址设置为1
-        addressBook.setIsDefault(1);
         addressBookMapper.update(addressBook);
     }
 
@@ -63,5 +56,21 @@ public class AddressBookBookServiceImpl implements AddressBookService {
      */
     public void delete(Long id) {
         addressBookMapper.delete(id);
+    }
+
+    /**
+     * 设置默认地址
+     * @param: addressBook
+     * @return: void
+     */
+    @Transactional
+    public void setDefault(AddressBook addressBook) {
+        //1、先把当前用户的所有默认地址都设置为0
+        addressBook.setIsDefault(0);
+        addressBook.setUserId(BaseContext.getCurrentId());
+        addressBookMapper.updateIsDefault(addressBook);
+        //2、再将前端传递的默认地址设置为1
+        addressBook.setIsDefault(1);
+        addressBookMapper.update(addressBook);
     }
 }

@@ -40,7 +40,7 @@ public class AddressBookController {
     @PutMapping("/default")
     @ApiOperation("设置默认地址")
     public Result defaultAddressModify(@RequestBody AddressBook addressBook) {
-        addressBookService.update(addressBook);
+        addressBookService.setDefault(addressBook);
         return Result.success();
     }
 
@@ -83,7 +83,7 @@ public class AddressBookController {
     @ApiOperation("根据id修改地址")
     public Result adressModify(@RequestBody AddressBook addressBook) {
         log.info("根据id修改地址：{}", addressBook.getId());
-        //TODO 与作者不一致，查看day08
+        //TODO 不完整
         addressBookService.update(addressBook);
         return Result.success();
     }

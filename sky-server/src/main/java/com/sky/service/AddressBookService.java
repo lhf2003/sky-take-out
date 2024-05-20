@@ -39,4 +39,11 @@ public interface AddressBookService {
      * @return: void
      */
     void delete(Long id);
+
+    /**
+     * 设置默认地址
+     * @param: addressBook
+     * @return: void
+     */
+    void setDefault(AddressBook addressBook);
 }
