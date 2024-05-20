@@ -30,6 +30,11 @@ public interface UserMapper {
     @Select("select * from user where id = #{id}")
     User getById(Long id);
 
+    /**
+     * 用户统计
+     * @param: map
+     * @return: java.lang.Integer
+     */
     Integer countByMap(Map map);
 
 }

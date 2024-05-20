@@ -68,5 +68,17 @@ public interface OrderMapper {
     @Select("select * from orders where status = #{status} and order_time < #{time}")
     List<Orders> getStatusAndTimeOut(Integer status, LocalDateTime time);
 
+    /**
+     * 营业额统计
+     * @param: map
+     * @return: java.lang.Double
+     */
     Double sumByMap(HashMap<String, Object> map);
+
+    /**
+     * 订单统计
+     * @param: begin end status
+     * @return: java.lang.Integer
+     */
+    Integer countByMap(LocalDateTime begin, LocalDateTime end, Integer status);
 }
