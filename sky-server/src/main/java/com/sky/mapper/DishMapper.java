@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DishMapper {
@@ -57,7 +58,13 @@ public interface DishMapper {
      * @param: categoryId
      * @return: java.util.List<com.sky.entity.Dish>
      */
-
-
     List<Dish> list(Dish dish);
+
+    /**
+     * @param status
+     * @return java.lang.Integer
+     * @date 2024/5/21 15:12
+     */
+    @Select("select count(id) from dish where status = #{status}")
+    Integer countByStatus(Integer status);
 }

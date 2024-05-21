@@ -65,8 +65,8 @@
         </where>
         order by order_time desc
     </select>
-    <select id="sumByMap" resultType="java.lang.Double">
-        select sum(amount) from orders
+    <select id="sumByMap" resultType="java.lang.Double" >
+        select coalesce(sum(amount),0.0) from orders
         <where>
             <if test="begin != null">
                 and order_time &gt; #{begin}

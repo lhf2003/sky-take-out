@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -109,14 +106,19 @@ public class ReportServiceImpl implements ReportService {
         List<Integer> orderList = new ArrayList<>();
         //查询每天的有效订单数
         List<Integer> validOrderList = new ArrayList<>();
-
+        Map<String, Object> map = new HashMap<>();
         for (LocalDate date : dateList) {
             LocalDateTime beginTime = LocalDateTime.of(date, LocalTime.MIN);
             LocalDateTime endTime = LocalDateTime.of(date, LocalTime.MAX);
+            map.put("begin", beginTime);
+            map.put("end", endTime);
 
-            //查询当前天数的订单数及有效订单数
-            Integer totalOrder = orderMapper.countByMap(beginTime, endTime, null);
-            Integer validOrder = orderMapper.countByMap(beginTime, endTime, Orders.COMPLETED);
+            //查询当天的总订单数
+            Integer totalOrder = orderMapper.countByMap(map);
+
+            //当天的有效订单数
+            map.put("status", Orders.COMPLETED);
+            Integer validOrder = orderMapper.countByMap(map);
 
             orderList.add(totalOrder);
             validOrderList.add(validOrder);

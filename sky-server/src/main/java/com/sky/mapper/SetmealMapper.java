@@ -53,4 +53,7 @@ public interface SetmealMapper {
      */
 
     List<Setmeal> list(Setmeal setmeal);
+
+    @Select("select count(id) from setmeal where status = #{status}")
+    Integer countByStatus(Integer status);
 }
